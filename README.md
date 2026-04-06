@@ -41,9 +41,44 @@ I run a full scan to identify open ports and services.
 ```bash
 nmap -sC -sV -Pn -vv 192.168.56.105
 ```
+## Example Findings:
 - Port 22 → SSH
 - Port 21 → FTP
 - Port 80 → HTTP (Web Server)
 
+## Step 4 — Web Enumeration
+I used gobuster to perform brute-forcing command to discover hidden paths on a web server.
 
+```bash
+gobuster dir --url http://ip -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 25 -x .txt, .php, .bak, .zip, .html
+```
+These are the directories that has been succesfully identified.
+- /service-status
+- /hiddent_text
+- Accessing the root URL at http://192.168.56.102/hidden_text that led to a maintenance notice which stating, "Maintenance!Sorry For Delay.We will recover soon. Thank You ...
+- There is something off with the Thank You and after clicking it, I discovered a QR code.
+- Decoding the QR code revealed a FTP credentials for user and password.
+  
+- ```bash
+  user : user ftp passsword : fttp@ssword 
+  ```
+## Step 5 — FTP Access
+
+## Connecting to FTP
+
+I attempted to connect to the FTP service on the target machine:
+```bash
+  ftp 192.168.56.105
+ ```
+## Enumerating Files
+Once inside the FTP server, I listed the available files:
+```bash
+ls
+```
+The following files were found:
+```bash
+information.txt
+p_lists.txt
+```
+These files looked interesting and potentially contained useful information such as credentials or hints.
 
