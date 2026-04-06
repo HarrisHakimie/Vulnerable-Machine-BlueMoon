@@ -90,9 +90,11 @@ get p_lists.txt
 ```
 The transfer completed successfully.
 ## Exiting FTP
+
 ```bash
 exit
 ```
+
 Read the contents of the files:
 ```bash
 cat information.txt
