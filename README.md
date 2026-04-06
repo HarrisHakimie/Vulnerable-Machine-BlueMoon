@@ -55,7 +55,7 @@ gobuster dir --url http://ip -w /usr/share/wordlists/dirbuster/directory-list-2.
 These are the directories that has been succesfully identified.
 - /service-status
 - /hiddent_text
-- Accessing the root URL at http://192.168.56.102/hidden_text that led to a maintenance notice which stating, "Maintenance!Sorry For Delay.We will recover soon. Thank You ...
+- Accessing the root URL at http://192.168.56.105/hidden_text that led to a maintenance notice which stating, "Maintenance!Sorry For Delay.We will recover soon. Thank You ...
 - There is something off with the Thank You and after clicking it, I discovered a QR code.
 - Decoding the QR code revealed a FTP credentials for user and password.
   
