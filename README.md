@@ -118,6 +118,7 @@ This confirms that:
 Using the discovered credentials, I logged into the target machine via SSH:
 ```bash
 ssh robin@192.168.56.105
+sudo -u jerry ./feedback.sh
 ```
 ## Executing feedback.sh
 During the enumeration phase, a script named feedback.sh was discovered. This script appears to collect user input and execute a shell.
